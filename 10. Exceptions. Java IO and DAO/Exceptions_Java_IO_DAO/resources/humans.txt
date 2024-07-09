@@ -1,0 +1,4 @@
+0|Igonin|Oleg|Leopoldovich|28
+0|Igonin|Oleg|Leopoldovich|28
+1|Ivanov|Ivan|Ivanovich|18
+2|Petrov|Petr|Petrovich|28
