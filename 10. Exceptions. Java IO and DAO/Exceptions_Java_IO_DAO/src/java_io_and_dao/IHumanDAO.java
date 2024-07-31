@@ -12,6 +12,7 @@ import java.io.IOException;
 public interface IHumanDAO {
     //CRUD -> Create Read Update Delete
     Human create(Human human);
+    Human create(Human[] humans);
 
     Human findById(int id);
 

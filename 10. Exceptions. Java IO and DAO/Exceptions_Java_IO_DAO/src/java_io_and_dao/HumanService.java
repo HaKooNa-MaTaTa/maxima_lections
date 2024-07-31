@@ -29,6 +29,11 @@ public class HumanService implements IHumanService {
     }
 
     @Override
+    public Human create(Human[] humans) {
+        return humanDAO.create(humans);
+    }
+
+    @Override
     public Human findById(int id) {
         return humanDAO.findById(id);
     }

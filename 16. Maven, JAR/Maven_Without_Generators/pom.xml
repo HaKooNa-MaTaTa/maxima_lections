@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+
+    <!--
+        Maven - это инструмент для автоматической сборки проектов на основе описания их структуры.
+        Структура описывается в специальных файлах на языке POM (Project Object Model).
+    -->
+
+    <!-- Информация о самом проекте -->
+    <groupId>ru.maxima</groupId>
+    <artifactId>Maven_Without_Generators</artifactId>
+    <version>0.1.1</version>
+    <!--
+        Архив Java. Содержит в себе все необходимые файлы, классы, зависимости для работы проекта.
+        Сделано для удобства разработчика и JVM
+     -->
+    <packaging>jar</packaging>
+
+    <!-- Настройки проекта/зависимостей -->
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!-- Внутри данного тега указываются внешние зависимости, которые будут подключены к нашему проекту -->
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.32</version>
+        </dependency>
+    </dependencies>
+    <!--
+        У Maven есть девять фаз сборки проекта:
+        - clean (опциональная фаза) - из папки target удаляются все скомпилированные файлы. Сама папка тоже удаляется
+        - validate - проверяет, вся ли информация есть/доступна для сборки проекта
+        - compile - компилирует файлы с исходным кодом
+        - test - запускаются все тесты проекта
+        - package - упаковываются все скомпилированные файлы в архив (jar, war)
+        - verify - проверка готовности упакованного файла
+        - install - проект помещается в локальный репозиторий как внешняя библиотека. Т.е. другие проекты могут использовать этот проект как библиотеку
+        - site - создается документация по проекту
+        - deploy - собранный проект копируется в удаленный репозиторий
+    -->
+</project>

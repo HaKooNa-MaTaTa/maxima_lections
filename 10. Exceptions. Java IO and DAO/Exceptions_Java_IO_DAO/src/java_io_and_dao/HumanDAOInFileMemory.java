@@ -39,6 +39,24 @@ public class HumanDAOInFileMemory implements IHumanDAO {
     }
 
     @Override
+    public Human create(Human[] humans) {
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("resources/humans.txt", true));
+            for (Human human : humans) {
+                human.setId(count_id);
+                count_id++;
+                bufferedWriter.write(human + "\n");
+            }
+            bufferedWriter.flush();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return null;
+    }
+
+    @Override
     public Human findById(int id) {
         return null;
     }

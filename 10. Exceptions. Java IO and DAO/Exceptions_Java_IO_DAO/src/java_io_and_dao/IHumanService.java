@@ -5,6 +5,7 @@ import java.io.IOException;
 public interface IHumanService {
 
     Human create(Human human);
+    Human create(Human[] human);
 
     Human findById(int id);
 

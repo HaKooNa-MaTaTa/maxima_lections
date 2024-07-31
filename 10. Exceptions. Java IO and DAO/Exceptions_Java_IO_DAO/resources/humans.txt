@@ -2,3 +2,13 @@
 0|Igonin|Oleg|Leopoldovich|28
 1|Ivanov|Ivan|Ivanovich|18
 2|Petrov|Petr|Petrovich|28
+0|Igonin|Oleg|Leopoldovich|28
+1|Igonin|Oleg|Leopoldovich|2
+2|Igonin|Oleg|Leopoldovich|29
+3|Igonin|Oleg|Leopoldovich|99
+4|Igonin|Oleg|Leopoldovich|299
+0|Igonin|Oleg|Leopoldovich|28
+1|Igonin|Oleg|Leopoldovich|2
+2|Igonin|Oleg|Leopoldovich|29
+3|Igonin|Oleg|Leopoldovich|99
+4|Igonin|Oleg|Leopoldovich|299

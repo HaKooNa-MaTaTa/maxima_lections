@@ -14,6 +14,11 @@ public class HumanDAOInMemory implements IHumanDAO {
     }
 
     @Override
+    public Human create(Human[] humans) {
+        return null;
+    }
+
+    @Override
     public Human findById(int id) {
         return humans[id];
     }
