@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- Указываем, откуда подставлять настройки -->
+    <context:property-placeholder location="application.properties"/>
+    <!-- Данный файл является инструкцией для Spring`a. Здесь описано что и как настраивать -->
+    <bean id="blackList" class="app.validator.BlackListPasswordInMemoryImpl"/>
+
+    <bean id="accountRepository" class="app.repository.AccountRepositoryInMemoryImpl"/>
+
+    <bean id="emailValidator" class="app.validator.EmailValidatorByCharacterImpl">
+        <!-- Если нужно внедрить зависимость через setter, то используем <property> -->
+        <property name="pattern" value="${validator.email.regex}"/>
+    </bean>
+
+    <bean id="passwordValidator" class="app.validator.PasswordValidatorByCharacterImpl"/>
+
+    <bean id="accountService" class="app.service.AccountServiceImpl">
+        <constructor-arg name="accountRepository" ref="accountRepository"/>
+        <constructor-arg name="blackListPassword" ref="blackList"/>
+        <constructor-arg name="emailValidator" ref="emailValidator"/>
+        <constructor-arg name="passwordValidator" ref="passwordValidator"/>
+    </bean>
+</beans>
