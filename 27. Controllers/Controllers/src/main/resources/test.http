@@ -1,0 +1,7 @@
+POST http://localhost:8080/controllers/signUp
+Content-Type: application/json
+
+{
+"name": "Oleg",
+"email": "oleg@mail.ru"
+}

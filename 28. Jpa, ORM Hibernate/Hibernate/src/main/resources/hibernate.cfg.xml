@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-configuration
+        PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <!--
+    Данный файл является конфигурационным файлом для Hibernate. Здесь хранятся
+    две самые главные настройки для Hibernate:
+    1. Креды для БД
+    2. Перечень сущностей, с которыми будет работать Hibernate
+    -->
+
+    <!--
+    Фабрика для создания сесиий. Сессия - это объект, который обеспечивает
+    физическое соединение между БД и приложением.
+    -->
+    <session-factory>
+        <!-- Куда подключаемся?-->
+        <property name="connection.url">jdbc:postgresql://localhost:5432/school_maxima</property>
+        <!-- Под кем подключаемся? -->
+        <property name="connection.username">postgres</property>
+        <!-- Какой пароль? -->
+        <property name="connection.password">postgres</property>
+        <!-- Что за БД? -->
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <!-- Включить отображения SQL запросов в консоли -->
+        <property name="show_sql">true</property>
+        <!-- Форматирование SQL запросов -->
+        <property name="format_sql">true</property>
+        <!-- Как вести Hibernate с таблицами БД при запуске приложения -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Указать сущности, с которыми будет работать Hibernate -->
+        <mapping class="intro.Car"/>
+        <mapping class="oneToOne.Person"/>
+        <mapping class="oneToOne.Passport"/>
+        <mapping class="oneToMany.Airplane"/>
+        <mapping class="oneToMany.Passenger"/>
+    </session-factory>
+</hibernate-configuration>

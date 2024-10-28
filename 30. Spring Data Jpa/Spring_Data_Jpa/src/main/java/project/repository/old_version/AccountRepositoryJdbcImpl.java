@@ -1,7 +1,5 @@
-package project.repository;
+package project.repository.old_version;
 
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,7 +10,6 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Класс для работы с базой данных и сущностью {@link Account}
@@ -23,8 +20,8 @@ public class AccountRepositoryJdbcImpl implements AccountRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     //language=SQL
-    private final String SQL_INSERT = "insert into account(id, email, age, first_name, last_name, patronymic) " +
-        "VALUES(:id, :email, :age, :firstName, :lastName, :patronymic); ";
+    private final String SQL_INSERT = "insert into account(id, email, first_name, last_name, password) " +
+        "VALUES(:id, :email, :firstName, :lastName, :password); ";
 
     //language=SQL
     private final String SQL_FIND_BY_ID = "select * from account where id = :id";
@@ -37,12 +34,11 @@ public class AccountRepositoryJdbcImpl implements AccountRepository {
     }
 
     private static final RowMapper<Account> accMapper = ((rs, rowNum) -> Account.builder()
-        .id(rs.getObject("id", UUID.class))
+        .id(rs.getLong("id"))
         .email(rs.getString("email"))
-        .age(rs.getInt("age"))
         .firstName(rs.getString("first_name"))
         .lastName(rs.getString("last_name"))
-        .patronymic(rs.getString("patronymic"))
+        .password(rs.getString("password"))
         .build());
 
     //TODO:
@@ -55,26 +51,25 @@ public class AccountRepositoryJdbcImpl implements AccountRepository {
     @Override
     public void save(SignUpForm form) {
         Map<String, Object> params = new HashMap<>();
-        params.put("id", UUID.randomUUID());
+        params.put("id", (int) (Math.random() * 1000));
         params.put("email", form.getEmail());
-        params.put("age", form.getAge());
         params.put("firstName", form.getFirstName());
         params.put("lastName", form.getLastName());
-        params.put("patronymic", form.getPatronymic());
+        params.put("password", form.getPassword());
         jdbcTemplate.update(SQL_INSERT, params);
     }
 
     @Override
-    public Account findById(String id) {
+    public Account findById(Long id) {
         Map<String, Object> map = new HashMap<>();
-        map.put("id", UUID.fromString(id));
+        map.put("id", id);
         return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, map, accMapper);
     }
 
     @Override
-    public void deleteById(String id) {
+    public void deleteById(Long id) {
         Map<String, Object> map = new HashMap<>();
-        map.put("id", UUID.fromString(id));
+        map.put("id", id);
         jdbcTemplate.update(SQL_DELETE, map);
     }
 }
