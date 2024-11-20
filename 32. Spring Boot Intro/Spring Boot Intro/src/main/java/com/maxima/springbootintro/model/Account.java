@@ -27,10 +27,10 @@ public class Account {
     private String email;
     private String password;
 
-    @Enumerated(value = EnumType.ORDINAL)
+    @Enumerated(value = EnumType.STRING)
     private State state;
 
-    @Enumerated(value = EnumType.ORDINAL)
+    @Enumerated(value = EnumType.STRING)
     private Role role;
 
     public enum Role {

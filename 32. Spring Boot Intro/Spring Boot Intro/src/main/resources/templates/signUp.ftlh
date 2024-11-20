@@ -1,41 +1,25 @@
 <!DOCTYPE html>
-<#import "spring.ftl" as spring/>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><@spring.message 'page.signUp.title'/></title>
-    <style>
-        .error {
-            color: red;
-        }
-    </style>
+    <title>SignUp</title>
 </head>
 <body>
-<h1><@spring.message 'page.signUp.header'/></h1>
-<h2><@spring.message 'page.signUp.description'/></h2>
+<h1>Sign Up Page</h1>
+<h2>Please Enter your data:</h2>
 <form action="/signUp" method="post">
-    <@spring.bind path="signUpForm"/>
-    <label for="firstName"><@spring.message 'page.signUp.label.firstName'/></label>
-    <#assign i18Tooltip><@spring.message 'page.signUp.placeholder.firstName'/></#assign>
-    <@spring.formInput "signUpForm.firstName" "placeholder=${i18Tooltip}"/>
-    <@spring.showErrors "<br>" "error"/>
+    <label for="firstName">Enter first name:</label>
+    <input id="firstName" name="firstName" placeholder="Your first name">
     <br>
+    <label for="lastName">Enter last name:</label>
+    <input id="lastName" name="lastName" placeholder="Your last name">
     <br>
-    <label for="lastName"><@spring.message 'page.signUp.label.lastName'/></label>
-    <#assign i18Tooltip><@spring.message 'page.signUp.placeholder.lastName'/></#assign>
-    <@spring.formInput "signUpForm.lastName" "placeholder=${i18Tooltip}"/>
-    <@spring.showErrors "<br>" "error"/>
+    <label for="email">Enter email:</label>
+    <input type="email" id="email" name="email" placeholder="Your email">
     <br>
-    <br>
-    <label for="email"><@spring.message 'page.signUp.label.email'/></label>
-    <#assign i18Tooltip><@spring.message 'page.signUp.placeholder.email'/></#assign>
-    <@spring.formInput "signUpForm.email" "placeholder=${i18Tooltip}"/>
-    <@spring.showErrors "<br>" "error"/>
-    <br>
-    <br>
-    <label for="password"><@spring.message 'page.signUp.label.password'/></label>
-    <#assign i18Tooltip><@spring.message 'page.signUp.placeholder.password'/></#assign>
-    <@spring.formInput "signUpForm.password" "placeholder=${i18Tooltip}"/>
-    <@spring.showErrors "<br>" "error"/>
+    <label for="password">Enter password:</label>
+    <input type="password" id="password" name="password" placeholder="Your password">
     <input type="submit" value="Sign Up">
 </form>
 </body>
+</html>
