@@ -16,6 +16,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean validateUser(String username, String password) {
+        UserEntity userEntity = findByUsername(username);
+        if (userEntity == null) {
+            return false;
+        }
+        return userEntity.getPassword().equals(password);
+    }
+
+    @Override
     public UserEntity findByUsername(String username) {
         return userRepository.findByUsername(username);
     }

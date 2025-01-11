@@ -1,7 +1,10 @@
 package com.maxima.jwt.controller;
 
 import com.maxima.jwt.dto.request.AuthRequest;
+import com.maxima.jwt.dto.request.TokenRefreshRequest;
 import com.maxima.jwt.dto.response.AuthResponse;
+import com.maxima.jwt.dto.response.TokenRefreshResponse;
+import com.maxima.jwt.enums.TokenType;
 import com.maxima.jwt.model.UserEntity;
 import com.maxima.jwt.service.JwtProvider;
 import com.maxima.jwt.service.UserService;
@@ -34,6 +37,29 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
 
-        return ResponseEntity.ok(new AuthResponse(jwtProvider.generateToken(request.getUsername())));
+        return ResponseEntity.ok(
+            new AuthResponse(
+                jwtProvider.generateAccessToken(request.getUsername()),
+                jwtProvider.generateRefreshToken(request.getUsername())
+            )
+        );
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<?> refresh(@RequestBody TokenRefreshRequest request) {
+        String refreshToken = request.getRefreshToken();
+
+        //Проверяем валидность рефреш токена
+        if (!jwtProvider.validateToken(refreshToken)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalidate refresh token");
+        }
+
+        //Что токен действительно типа РЕФРЕШ
+        if (!TokenType.REFRESH.name().equals(jwtProvider.getTokenType(refreshToken))) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not a refresh token");
+        }
+
+        String newAccessToken = jwtProvider.generateAccessToken(jwtProvider.getUsername(refreshToken));
+        return ResponseEntity.ok(new TokenRefreshResponse(newAccessToken));
     }
 }

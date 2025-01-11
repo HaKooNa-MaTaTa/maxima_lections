@@ -1,5 +1,6 @@
 package com.maxima.jwt.filter;
 
+import com.maxima.jwt.enums.TokenType;
 import com.maxima.jwt.service.JwtProvider;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -36,11 +37,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = header.substring(7);
             try {
                 if (jwtProvider.validateToken(token)) {
-                    String username = jwtProvider.getUsernameFromToken(token);
-                    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                        username, null, new ArrayList<>()
-                    );
-                    SecurityContextHolder.getContext().setAuthentication(auth);
+                    String tokenType = jwtProvider.getTokenType(token);
+
+                    if (TokenType.ACCESS.name().equals(tokenType)) {
+                        String username = jwtProvider.getUsername(token);
+                        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                            username, null, new ArrayList<>()
+                        );
+                        SecurityContextHolder.getContext().setAuthentication(auth);
+                    } else {
+                        SecurityContextHolder.clearContext();
+                    }
                 }
             } catch (Exception e) {
                 SecurityContextHolder.clearContext();

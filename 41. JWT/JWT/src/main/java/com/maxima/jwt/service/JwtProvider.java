@@ -1,5 +1,6 @@
 package com.maxima.jwt.service;
 
+import com.maxima.jwt.enums.TokenType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -15,18 +16,31 @@ import java.util.Date;
 public class JwtProvider {
 
     private static final String SECRET_KEY = "SECRET_KEY_for_TOKEN_1234567890_IS_VERY_BIG_KEY";
+//    private static final String REFRESH_SECRET_KEY = "REFRESH_SECRET_KEY_for_TOKEN_1234567890_IS_VERY_BIG_KEY";
 
-    private static final long EXPIRATION_MILLIS = 15 * 60 * 1000;
+    private static final long ACCESS_EXPIRES_MILLIS = 15 * 60 * 1000; //15 минут
+    private static final long REFRESH_EXPIRES_MILLIS = 24 * 60 * 60 * 1000; //1 день
+
+    //Генерация access токена
+    public String generateAccessToken(String username) {
+        return generateToken(username, TokenType.ACCESS, ACCESS_EXPIRES_MILLIS);
+    }
+
+    //Генерация refresh токена
+    public String generateRefreshToken(String username) {
+        return generateToken(username, TokenType.REFRESH, REFRESH_EXPIRES_MILLIS);
+    }
 
     //Генерируем токен
-    public String generateToken(String username) {
+    private String generateToken(String username, TokenType type, long expires) {
         Date now = new Date();
-        Date expireDate = new Date(now.getTime() + EXPIRATION_MILLIS);
+        Date expireDate = new Date(now.getTime() + expires);
 
         SecretKey key = getSigningKey();
 
         return Jwts.builder()
             .subject(username)
+            .claim("tokenType", type.name())
             .issuedAt(now)
             .expiration(expireDate)
             .signWith(key)
@@ -55,13 +69,19 @@ public class JwtProvider {
     }
 
     //Извлечь из токена логин пользователя
-    public String getUsernameFromToken(String token) {
-        SecretKey key = getSigningKey();
-        Jws<Claims> claims = Jwts.parser()
-            .verifyWith(key)
-            .build()
-            .parseSignedClaims(token);
+    public String getUsername(String token) {
+        return getClaims(token).getSubject();
+    }
 
-        return claims.getPayload().getSubject();
+    public String getTokenType(String token) {
+        return (String) getClaims(token).get("tokenType");
+    }
+
+    public Claims getClaims(String token) {
+        return Jwts.parser()
+            .verifyWith(getSigningKey())
+            .build()
+            .parseSignedClaims(token)
+            .getPayload();
     }
 }
